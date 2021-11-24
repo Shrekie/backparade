@@ -19,6 +19,7 @@ const createMediaGraphic = (index, fileName, filePath, height = "864px") => {
     mediaGraphic = document.createElement("video");
 
     mediaGraphic.autoplay = true;
+    mediaGraphic.volume = 0.005;
     mediaGraphic.muted = true;
     mediaGraphic.loop = true;
     mediaGraphic.controls = true;

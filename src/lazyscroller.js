@@ -45,10 +45,11 @@ const enableLazyScrolling = (
     });
   };
 
-  //let timeoutScroll = null;
+  getVisibleFileIndexes();
+
+  // Update visible indexes on scroll.
+  // FIXME: inneficient, should not be called on every scroll.
   window.addEventListener("scroll", (_) => {
-    //clearTimeout(timeoutScroll);
-    //timeoutScroll = setTimeout(() => getVisibleFileIndexes(), 500);
     getVisibleFileIndexes();
   });
 };
