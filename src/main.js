@@ -33,7 +33,6 @@ app.on("window-all-closed", function () {
 
 const { ipcMain, dialog } = require("electron");
 
-ipcMain.handle("open", (event, arg) => {
-  console.log(arg);
+ipcMain.handle("select-directory", (event, arg) => {
   return dialog.showOpenDialog({ properties: ["openDirectory"] });
 });

@@ -1,17 +1,20 @@
 // All of the Node.js APIs are available in the preload process.
 // It has the same sandbox as a Chrome extension.
-const { ipcRenderer } = require("electron");
 const { testPath } = require("../private.js");
 
-const { getDirFiles, displayDirFiles } = require("./directorypiper.js");
-const { enableLazyScrolling } = require("./lazyscroller.js");
+const { getDirFiles } = require("./file-lister.js");
+const { createMediaTimeline } = require("./media-frame.js");
+const { enableLazyScrolling } = require("./lazy-scroller.js");
+const { createDirectorySelector } = require("./directory-selector.js");
 
 window.addEventListener("DOMContentLoaded", () => {
-  ipcRenderer.invoke("open", "test").then((dirPath) => {
-    console.log(dirPath);
-  });
+  const mediaTimelineContainer = document.createElement("div");
+  document.body.appendChild(mediaTimelineContainer);
+  console.log(createDirectorySelector(mediaTimelineContainer));
+  document.body.appendChild(createDirectorySelector(mediaTimelineContainer));
+
   getDirFiles(testPath).then((files) => {
-    displayDirFiles(testPath, files, "directory-list", "1536px", "864px");
-    enableLazyScrolling(864, 7, "media-graphic");
+    createMediaTimeline(testPath, files, mediaTimelineContainer);
+    enableLazyScrolling();
   });
 });

@@ -1,7 +1,9 @@
+// Graphics only within a range is loaded, with scroll posisition as basis
+
 const enableLazyScrolling = (
   pictureSize = 864,
   numberOfPictures = 7,
-  mediaGraphicID = "media-graphic"
+  mediaFrameID = "media-frame"
 ) => {
   let visibleIndexes = Array(numberOfPictures).fill(0);
   const getVisibleFileIndexes = () => {
@@ -17,30 +19,30 @@ const enableLazyScrolling = (
     visibleIndexes
       .filter((visibleIndex) => !newVisibleIndexes.includes(visibleIndex))
       .forEach((oldVisibleIndex) => {
-        let mediaGraphic = document.getElementById(
-          `${mediaGraphicID}-${oldVisibleIndex}`
+        let mediaFrame = document.getElementById(
+          `${mediaFrameID}-${oldVisibleIndex}`
         );
 
-        if (mediaGraphic == null) return;
+        if (mediaFrame == null) return;
 
-        mediaGraphic.src = "";
-        mediaGraphic.removeAttribute("src");
-        mediaGraphic.style.display = "none";
+        mediaFrame.src = "";
+        mediaFrame.removeAttribute("src");
+        mediaFrame.style.display = "none";
       });
 
     visibleIndexes = newVisibleIndexes;
 
     // Download src of viewable graphic if not set.
     visibleIndexes.forEach((visibleIndex) => {
-      let mediaGraphic = document.getElementById(
-        `${mediaGraphicID}-${visibleIndex}`
+      let mediaFrame = document.getElementById(
+        `${mediaFrameID}-${visibleIndex}`
       );
 
-      if (mediaGraphic == null) return;
+      if (mediaFrame == null) return;
 
-      if (mediaGraphic.src == "") {
-        mediaGraphic.src = mediaGraphic.dataset.src;
-        mediaGraphic.style.display = "block";
+      if (mediaFrame.src == "") {
+        mediaFrame.src = mediaFrame.dataset.src;
+        mediaFrame.style.display = "block";
       }
     });
   };
