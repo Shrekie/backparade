@@ -7,22 +7,22 @@ const createMediaFramesContainer = (
   width = "1536px",
   height = "864px"
 ) => {
-  const mediaContainer = document.createElement("div");
+  const mediaFramesContainer = document.createElement("div");
 
-  mediaContainer.style.width = width;
-  mediaContainer.style.height = height;
-  mediaContainer.style.margin = "0 auto";
+  mediaFramesContainer.style.width = width;
+  mediaFramesContainer.style.height = height;
+  mediaFramesContainer.style.margin = "0 auto";
 
-  mediaContainer.id = `media-frame-container-${index}`;
+  mediaFramesContainer.id = `media-frames-container-${index}`;
 
-  return mediaContainer;
+  return mediaFramesContainer;
 };
 
 const createMediaFrame = (index, fileName, filePath, height = "864px") => {
   let mediaFrame;
 
   if (path.extname(fileName) == ".mp4" || path.extname(fileName) == ".webm") {
-    mediaGraphic = document.createElement("video");
+    mediaFrame = document.createElement("video");
 
     mediaFrame.autoplay = true;
     mediaFrame.volume = 0.005;

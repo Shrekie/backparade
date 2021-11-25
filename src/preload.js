@@ -3,18 +3,19 @@
 const { testPath } = require("../private.js");
 
 const { getDirFiles } = require("./file-lister.js");
-const { createMediaTimeline } = require("./media-frame.js");
+const { createMediaTimeline } = require("./media-framer.js");
 const { enableLazyScrolling } = require("./lazy-scroller.js");
 const { createDirectorySelector } = require("./directory-selector.js");
 
 window.addEventListener("DOMContentLoaded", () => {
   const mediaTimelineContainer = document.createElement("div");
-  document.body.appendChild(mediaTimelineContainer);
-  console.log(createDirectorySelector(mediaTimelineContainer));
   document.body.appendChild(createDirectorySelector(mediaTimelineContainer));
-
+  document.body.appendChild(mediaTimelineContainer);
+  enableLazyScrolling();
+  /*
   getDirFiles(testPath).then((files) => {
     createMediaTimeline(testPath, files, mediaTimelineContainer);
     enableLazyScrolling();
   });
+  */
 });

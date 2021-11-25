@@ -1,59 +1,61 @@
 // Graphics only within a range is loaded, with scroll posisition as basis
 
-const enableLazyScrolling = (
+const setVisibleMedia = (
   pictureSize = 864,
   numberOfPictures = 7,
   mediaFrameID = "media-frame"
 ) => {
   let visibleIndexes = Array(numberOfPictures).fill(0);
-  const getVisibleFileIndexes = () => {
-    // Calculate indexes visible in viewport given
-    // picture size and number of pictures.
-    let newVisibleIndexes = visibleIndexes.map((_, indexHeight) =>
-      Math.ceil(
-        window.scrollY / pictureSize + indexHeight - numberOfPictures / 2
-      )
-    );
 
-    // Clear old non visible graphics.
-    visibleIndexes
-      .filter((visibleIndex) => !newVisibleIndexes.includes(visibleIndex))
-      .forEach((oldVisibleIndex) => {
-        let mediaFrame = document.getElementById(
-          `${mediaFrameID}-${oldVisibleIndex}`
-        );
+  // Calculate indexes visible
+  let newVisibleIndexes = visibleIndexes.map((_, indexHeight) =>
+    Math.ceil(window.scrollY / pictureSize + indexHeight - numberOfPictures / 2)
+  );
 
-        if (mediaFrame == null) return;
-
-        mediaFrame.src = "";
-        mediaFrame.removeAttribute("src");
-        mediaFrame.style.display = "none";
-      });
-
-    visibleIndexes = newVisibleIndexes;
-
-    // Download src of viewable graphic if not set.
-    visibleIndexes.forEach((visibleIndex) => {
+  // Clear old non visible graphics.
+  visibleIndexes
+    .filter((visibleIndex) => !newVisibleIndexes.includes(visibleIndex))
+    .forEach((oldVisibleIndex) => {
       let mediaFrame = document.getElementById(
-        `${mediaFrameID}-${visibleIndex}`
+        `${mediaFrameID}-${oldVisibleIndex}`
       );
 
       if (mediaFrame == null) return;
 
-      if (mediaFrame.src == "") {
-        mediaFrame.src = mediaFrame.dataset.src;
-        mediaFrame.style.display = "block";
-      }
+      mediaFrame.src = "";
+      mediaFrame.removeAttribute("src");
+      mediaFrame.style.display = "none";
     });
-  };
 
-  getVisibleFileIndexes();
+  // Store new visible graphics.
+  visibleIndexes = newVisibleIndexes;
 
-  // Update visible indexes on scroll.
-  // FIXME: inneficient, should not be called on every scroll.
-  window.addEventListener("scroll", (_) => {
-    getVisibleFileIndexes();
+  // Download src of viewable graphic if not already.
+  visibleIndexes.forEach((visibleIndex) => {
+    let mediaFrame = document.getElementById(`${mediaFrameID}-${visibleIndex}`);
+
+    if (mediaFrame == null) return;
+
+    if (mediaFrame.src == "") {
+      mediaFrame.src = mediaFrame.dataset.src;
+      mediaFrame.style.display = "block";
+    }
   });
 };
 
-module.exports = { enableLazyScrolling };
+const enableLazyScrolling = (
+  pictureSize = 864,
+  numberOfPictures = 7,
+  mediaFrameID = "media-frame"
+) => {
+  setVisibleMedia(pictureSize, numberOfPictures, mediaFrameID);
+
+  // Update visible indexes on scroll
+  // FIXME: inneficient, should not be called on every scroll.
+  // Performance does not seem to suffer notably from this
+  window.addEventListener("scroll", (_) => {
+    setVisibleMedia(pictureSize, numberOfPictures, mediaFrameID);
+  });
+};
+
+module.exports = { enableLazyScrolling, setVisibleMedia };

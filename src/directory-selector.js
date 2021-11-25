@@ -1,6 +1,7 @@
 const { ipcRenderer } = require("electron");
 const { getDirFiles } = require("./file-lister.js");
-const { createMediaTimeline } = require("./media-frame.js");
+const { createMediaTimeline } = require("./media-framer.js");
+const { setVisibleMedia } = require("./lazy-scroller.js");
 
 const createDirectorySelector = (mediaTimelineContainer) => {
   const directorySelectorContainer = document.createElement("div");
@@ -25,6 +26,7 @@ const setNewDirectory = (result, mediaTimelineContainer) => {
   mediaTimelineContainer.innerHTML = "";
   getDirFiles(result.filePaths[0]).then((files) => {
     createMediaTimeline(result.filePaths[0], files, mediaTimelineContainer);
+    setVisibleMedia();
   });
 };
 
