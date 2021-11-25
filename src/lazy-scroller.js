@@ -28,11 +28,8 @@ const setVisibleMedia = (
       mediaFrame = null;
     });
 
-  // Store new visible graphics.
-  visibleIndexes = newVisibleIndexes;
-
   // Download src of viewable graphic if not already.
-  visibleIndexes.forEach((visibleIndex) => {
+  newVisibleIndexes.forEach((visibleIndex) => {
     let mediaFrame = document.getElementById(`${mediaFrameID}-${visibleIndex}`);
 
     if (mediaFrame == null) return;

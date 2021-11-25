@@ -2,7 +2,7 @@
 
 const path = require("path");
 
-const createMediaFramesContainer = (
+const createMediaFrameContainer = (
   index,
   width = "1536px",
   height = "864px"
@@ -13,7 +13,7 @@ const createMediaFramesContainer = (
   mediaFramesContainer.style.height = height;
   mediaFramesContainer.style.margin = "0 auto";
 
-  mediaFramesContainer.id = `media-frames-container-${index}`;
+  mediaFramesContainer.id = `media-frame-container-${index}`;
 
   return mediaFramesContainer;
 };
@@ -40,7 +40,7 @@ const createMediaFrame = (index, fileName, filePath, height = "864px") => {
 
   mediaFrame.id = `media-frame-${index}`;
 
-  const mediaFramesContainer = createMediaFramesContainer(index);
+  const mediaFramesContainer = createMediaFrameContainer(index);
   mediaFramesContainer.appendChild(mediaFrame);
 
   return mediaFramesContainer;
