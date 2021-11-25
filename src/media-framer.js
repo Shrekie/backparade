@@ -24,7 +24,7 @@ const createMediaFrame = (index, fileName, filePath, height = "864px") => {
   if (path.extname(fileName) == ".mp4" || path.extname(fileName) == ".webm") {
     mediaFrame = document.createElement("video");
 
-    mediaFrame.autoplay = true;
+    mediaFrame.autoplay = false;
     mediaFrame.volume = 0.005;
     mediaFrame.muted = true;
     mediaFrame.loop = true;

@@ -25,6 +25,7 @@ const setVisibleMedia = (
       mediaFrame.src = "";
       mediaFrame.removeAttribute("src");
       mediaFrame.style.display = "none";
+      mediaFrame = null;
     });
 
   // Store new visible graphics.
@@ -51,7 +52,7 @@ const enableLazyScrolling = (
   setVisibleMedia(pictureSize, numberOfPictures, mediaFrameID);
 
   // Update visible indexes on scroll
-  // FIXME: inneficient, should not be called on every scroll.
+  // NOTE: inneficient, should not be called on every scroll.
   // Performance does not seem to suffer notably from this
   window.addEventListener("scroll", (_) => {
     setVisibleMedia(pictureSize, numberOfPictures, mediaFrameID);

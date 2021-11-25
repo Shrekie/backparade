@@ -4,9 +4,11 @@
   "description": "..",
   "main": "./src/main.js",
   "scripts": {
-    "start": "electron ."
+    "start": "electron .",
+    "build": "electron-builder ."
   },
   "devDependencies": {
-    "electron": "^13.1.7"
+    "electron": "^13.1.7",
+    "electron-packager": "^15.4.0"
   }
 }

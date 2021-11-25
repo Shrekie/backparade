@@ -1,4 +1,4 @@
-// Parses file content in given directory
+// Lists file content in a given directory
 
 const { readdir, stat } = require("fs/promises");
 
