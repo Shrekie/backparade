@@ -8,7 +8,6 @@ const createDirectorySelector = (mediaTimelineContainer) => {
   directorySelectorContainer.style.position = "fixed";
   directorySelectorContainer.style.top = "10px";
   directorySelectorContainer.style.left = "10%";
-  directorySelectorContainer.style.transform = "translateX(-50%)";
   directorySelectorContainer.style.zIndex = "1";
 
   const button = document.createElement("div");

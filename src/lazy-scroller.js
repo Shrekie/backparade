@@ -2,14 +2,18 @@
 
 const setVisibleMedia = (
   pictureSize = 864,
-  numberOfPictures = 7,
+  numberOfPictures = 8,
   mediaFrameID = "media-frame"
 ) => {
   let visibleIndexes = Array(numberOfPictures).fill(0);
 
   // Calculate indexes visible
   let newVisibleIndexes = visibleIndexes.map((_, indexHeight) =>
-    Math.ceil(window.scrollY / pictureSize + indexHeight - numberOfPictures / 2)
+    Math.round(
+      (window.scrollY + window.innerHeight / 2) / pictureSize +
+        indexHeight -
+        numberOfPictures / 2
+    )
   );
 
   // Clear old non visible graphics.
@@ -43,7 +47,7 @@ const setVisibleMedia = (
 
 const enableLazyScrolling = (
   pictureSize = 864,
-  numberOfPictures = 7,
+  numberOfPictures = 8,
   mediaFrameID = "media-frame"
 ) => {
   setVisibleMedia(pictureSize, numberOfPictures, mediaFrameID);

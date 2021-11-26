@@ -12,13 +12,19 @@ const createMediaFrameContainer = (
   mediaFramesContainer.style.width = width;
   mediaFramesContainer.style.height = height;
   mediaFramesContainer.style.margin = "0 auto";
-
+  mediaFramesContainer.style.backgroundColor = "#f0f0f0";
   mediaFramesContainer.id = `media-frame-container-${index}`;
 
   return mediaFramesContainer;
 };
 
-const createMediaFrame = (index, fileName, filePath, height = "864px") => {
+const createMediaFrame = (
+  index,
+  fileName,
+  filePath,
+  width = "1536px",
+  height = "864px"
+) => {
   let mediaFrame;
 
   if (path.extname(fileName) == ".mp4" || path.extname(fileName) == ".webm") {
@@ -40,7 +46,7 @@ const createMediaFrame = (index, fileName, filePath, height = "864px") => {
 
   mediaFrame.id = `media-frame-${index}`;
 
-  const mediaFramesContainer = createMediaFrameContainer(index);
+  const mediaFramesContainer = createMediaFrameContainer(index, width, height);
   mediaFramesContainer.appendChild(mediaFrame);
 
   return mediaFramesContainer;
@@ -54,7 +60,13 @@ const createMediaTimeline = (
   mediaHeight = "864px"
 ) => {
   files.forEach((file, index) => {
-    mediaFrame = createMediaFrame(index, file.name, dirPath, mediaHeight);
+    mediaFrame = createMediaFrame(
+      index,
+      file.name,
+      dirPath,
+      mediaWidth,
+      mediaHeight
+    );
     timelineContainer.appendChild(mediaFrame);
   });
 };
