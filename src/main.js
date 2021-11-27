@@ -30,10 +30,39 @@ app.on("window-all-closed", function () {
   if (process.platform !== "darwin") app.quit();
 });
 
-// ----------------------------------------------------------------------------
+// Each section contains a ipc communication module
+const { ipcMain } = require("electron");
 
-const { ipcMain, dialog } = require("electron");
+// ----------------------------------------------------------------------------
+// Show directory window and return selection
+const { dialog } = require("electron");
 
 ipcMain.handle("select-directory", (event, arg) => {
   return dialog.showOpenDialog({ properties: ["openDirectory"] });
+});
+
+// ----------------------------------------------------------------------------
+// Storage save/load 'various', NOTE: seperate 'various'
+// JSON in config file on app.getPath("userData")
+const Store = require("electron-store");
+
+const store = new Store({
+  schema: {
+    mediaFrameWidth: {
+      type: "number",
+      default: 1536,
+    },
+
+    mediaFrameHeight: {
+      type: "number",
+      default: 864,
+    },
+  },
+});
+
+ipcMain.handle("get-frame-size", (event, arg) => {
+  return {
+    mediaFrameWidth: store.get("mediaFrameWidth"),
+    mediaFrameHeight: store.get("mediaFrameHeight"),
+  };
 });

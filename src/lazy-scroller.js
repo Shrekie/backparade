@@ -1,20 +1,22 @@
-// Cautiously switches graphics loaded 
+// Cautiously switches graphics loaded
 // within a viewport with scroll posisition as basis
 // to save performance
 
+const { getLazyViewport } = require("./feed-layout.js");
+
 const setVisibleMedia = (
-  pictureSize = 864,
-  numberOfPictures = 8,
+  graphicSize,
+  numberOfGraphicsVisible,
   mediaFrameID = "media-frame"
 ) => {
-  let visibleIndexes = Array(numberOfPictures).fill(0);
+  let visibleIndexes = Array(numberOfGraphicsVisible).fill(0);
 
   // Calculate indexes visible
   let newVisibleIndexes = visibleIndexes.map((_, indexHeight) =>
     Math.round(
-      (window.scrollY + window.innerHeight / 2) / pictureSize +
+      (window.scrollY + window.innerHeight / 2) / graphicSize +
         indexHeight -
-        numberOfPictures / 2
+        numberOfGraphicsVisible / 2
     )
   );
 
@@ -47,18 +49,16 @@ const setVisibleMedia = (
   });
 };
 
-const enableLazyScrolling = (
-  pictureSize = 864,
-  numberOfPictures = 8,
-  mediaFrameID = "media-frame"
-) => {
-  setVisibleMedia(pictureSize, numberOfPictures, mediaFrameID);
+const enableLazyScrolling = async (mediaFrameID = "media-frame") => {
+  const { graphicSize, numberOfGraphicsVisible } = await getLazyViewport();
+
+  setVisibleMedia(graphicSize, numberOfGraphicsVisible, mediaFrameID);
 
   // Update visible indexes on scroll
   // NOTE: inneficient, should not be called on every scroll.
   // Performance does not seem to suffer notably from this
   window.addEventListener("scroll", (_) => {
-    setVisibleMedia(pictureSize, numberOfPictures, mediaFrameID);
+    setVisibleMedia(graphicSize, numberOfGraphicsVisible, mediaFrameID);
   });
 };
 

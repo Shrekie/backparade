@@ -1,23 +1,24 @@
 // Frame elements that render media on a timeline feed
 
 const path = require("path");
+const { getFrameSize, frameGaps } = require("./feed-layout.js");
 
 const createMediaFrameContainer = (
   index,
-  width = "1536px",
-  height = "864px"
+  mediaFrameWidth,
+  mediaFrameHeight
 ) => {
   const mediaFramesContainer = document.createElement("div");
 
-  mediaFramesContainer.style.width = width;
-  mediaFramesContainer.style.height = height;
+  mediaFramesContainer.style.width = mediaFrameWidth;
+  mediaFramesContainer.style.height = mediaFrameHeight;
   mediaFramesContainer.style.margin = "0 auto";
   mediaFramesContainer.style.backgroundColor = "#f0f0f0";
 
   // offset
-  mediaFramesContainer.style.border = "1px solid #ccc";
-  mediaFramesContainer.style.padding = "10px";
-  mediaFramesContainer.style.marginTop = "10px";
+  mediaFramesContainer.style.border = `${frameGaps.border}px solid #ccc`;
+  mediaFramesContainer.style.padding = `${frameGaps.padding}px`;
+  mediaFramesContainer.style.marginTop = `${frameGaps.marginTop}px`;
   // offset
 
   mediaFramesContainer.id = `media-frame-container-${index}`;
@@ -29,8 +30,8 @@ const createMediaFrame = (
   index,
   fileName,
   filePath,
-  width = "1536px",
-  height = "864px"
+  mediaFrameWidth,
+  mediaFrameHeight
 ) => {
   let mediaFrame;
 
@@ -48,31 +49,35 @@ const createMediaFrame = (
 
   mediaFrame.style.objectFit = "contain";
   mediaFrame.style.width = "100%";
-  mediaFrame.style.height = height;
+  mediaFrame.style.height = mediaFrameHeight;
   mediaFrame.style.display = "none"; // NOTE: may hide lazy placeholder
 
   mediaFrame.id = `media-frame-${index}`;
 
-  const mediaFramesContainer = createMediaFrameContainer(index, width, height);
+  const mediaFramesContainer = createMediaFrameContainer(
+    index,
+    mediaFrameWidth,
+    mediaFrameHeight
+  );
   mediaFramesContainer.appendChild(mediaFrame);
 
   return mediaFramesContainer;
 };
 
-const createMediaTimeline = (
+const createMediaTimeline = async (
   dirPath,
   files,
-  timelineContainer = document.body,
-  mediaWidth = "1536px",
-  mediaHeight = "864px"
+  timelineContainer = document.body
 ) => {
+  const { mediaFrameWidth, mediaFrameHeight } = await getFrameSize();
+
   files.forEach((file, index) => {
     mediaFrame = createMediaFrame(
       index,
       file.name,
       dirPath,
-      mediaWidth,
-      mediaHeight
+      `${mediaFrameWidth}px`,
+      `${mediaFrameHeight}px`
     );
     timelineContainer.appendChild(mediaFrame);
   });

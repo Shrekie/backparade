@@ -7,5 +7,5 @@ const { createDirectorySelector } = require("./directory-selector.js");
 
 contextBridge.exposeInMainWorld("timeline", {
   createDirectorySelector,
-  enableLazyScrolling,
+  enableLazyScrolling
 });
