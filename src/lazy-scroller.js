@@ -1,4 +1,6 @@
-// Graphics only within a range is loaded, with scroll posisition as basis
+// Cautiously switches graphics loaded 
+// within a viewport with scroll posisition as basis
+// to save performance
 
 const setVisibleMedia = (
   pictureSize = 864,

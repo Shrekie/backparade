@@ -1,3 +1,5 @@
+// Menu item for selecting the directory of a timeline
+
 const { ipcRenderer } = require("electron");
 const { getDirFiles } = require("./file-lister.js");
 const { createMediaTimeline } = require("./media-framer.js");

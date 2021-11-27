@@ -4,3 +4,11 @@
 // `nodeIntegration` is turned off. Use `preload.js` to
 // selectively enable features needed in the rendering
 // process.
+
+const createDirectorySelector = window.timeline.createDirectorySelector;
+
+const mediaTimelineContainer = document.createElement("div");
+document.body.appendChild(mediaTimelineContainer);
+document.body.appendChild(createDirectorySelector(mediaTimelineContainer));
+
+window.timeline.enableLazyScrolling();

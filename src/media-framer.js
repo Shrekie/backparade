@@ -1,4 +1,4 @@
-// Elements that hold the graphics of media
+// Frame elements that render media on a timeline feed
 
 const path = require("path");
 
@@ -13,6 +13,13 @@ const createMediaFrameContainer = (
   mediaFramesContainer.style.height = height;
   mediaFramesContainer.style.margin = "0 auto";
   mediaFramesContainer.style.backgroundColor = "#f0f0f0";
+
+  // offset
+  mediaFramesContainer.style.border = "1px solid #ccc";
+  mediaFramesContainer.style.padding = "10px";
+  mediaFramesContainer.style.marginTop = "10px";
+  // offset
+
   mediaFramesContainer.id = `media-frame-container-${index}`;
 
   return mediaFramesContainer;
@@ -42,7 +49,7 @@ const createMediaFrame = (
   mediaFrame.style.objectFit = "contain";
   mediaFrame.style.width = "100%";
   mediaFrame.style.height = height;
-  mediaFrame.style.display = "none";
+  mediaFrame.style.display = "none"; // NOTE: may hide lazy placeholder
 
   mediaFrame.id = `media-frame-${index}`;
 
