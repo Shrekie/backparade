@@ -5,10 +5,11 @@
 // selectively enable features needed in the rendering
 // process.
 
-const createDirectorySelector = window.timeline.createDirectorySelector;
+const { createDirectorySelector, createSettingsEditor } = window.timeline;
 
 const mediaTimelineContainer = document.createElement("div");
 document.body.appendChild(mediaTimelineContainer);
 document.body.appendChild(createDirectorySelector(mediaTimelineContainer));
+document.body.appendChild(createSettingsEditor());
 
 window.timeline.enableLazyScrolling();

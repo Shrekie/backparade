@@ -7,6 +7,10 @@ const getFrameSize = () => {
   return ipcRenderer.invoke("get-frame-size");
 };
 
+const setFrameSize = (width, height) => {
+  return ipcRenderer.invoke("set-frame-size", { width, height });
+};
+
 const frameTags = {
   mediaFrameID: "media-frame",
   mediaFramesContainerID: "media-frame-container",
@@ -28,4 +32,10 @@ const getLazyViewport = async () => {
   return { graphicSize, numberOfGraphicsVisible };
 };
 
-module.exports = { getFrameSize, getLazyViewport, frameGaps, frameTags };
+module.exports = {
+  getFrameSize,
+  setFrameSize,
+  getLazyViewport,
+  frameGaps,
+  frameTags,
+};

@@ -66,3 +66,10 @@ ipcMain.handle("get-frame-size", (event, arg) => {
     mediaFrameHeight: store.get("mediaFrameHeight"),
   };
 });
+
+ipcMain.handle("set-frame-size", (event, arg) => {
+  return store.set({
+    mediaFrameWidth: arg.width,
+    mediaFrameHeight: arg.height,
+  });
+});

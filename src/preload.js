@@ -4,8 +4,10 @@
 const { contextBridge } = require("electron");
 const { enableLazyScrolling } = require("./lazy-scroller.js");
 const { createDirectorySelector } = require("./directory-selector.js");
+const { createSettingsEditor } = require("./settings-editor.js");
 
 contextBridge.exposeInMainWorld("timeline", {
+  enableLazyScrolling,
   createDirectorySelector,
-  enableLazyScrolling
+  createSettingsEditor,
 });
