@@ -1,9 +1,15 @@
-// Settings for the graphical layout of timeline feed elements, in storage
+// Settings for the graphical layout of timeline feed
+// some properties are taken from disk storage
 
 const { ipcRenderer } = require("electron");
 
 const getFrameSize = () => {
   return ipcRenderer.invoke("get-frame-size");
+};
+
+const frameTags = {
+  mediaFrameID: "media-frame",
+  mediaFramesContainerID: "media-frame-container",
 };
 
 const frameGaps = { border: 1, padding: 10, marginTop: 10 };
@@ -22,4 +28,4 @@ const getLazyViewport = async () => {
   return { graphicSize, numberOfGraphicsVisible };
 };
 
-module.exports = { getFrameSize, getLazyViewport, frameGaps };
+module.exports = { getFrameSize, getLazyViewport, frameGaps, frameTags };

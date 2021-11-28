@@ -1,7 +1,7 @@
 // Frame elements that render media on a timeline feed
 
 const path = require("path");
-const { getFrameSize, frameGaps } = require("./feed-layout.js");
+const { getFrameSize, frameGaps, frameTags } = require("./feed-layout.js");
 
 const createMediaFrameContainer = (
   index,
@@ -21,7 +21,7 @@ const createMediaFrameContainer = (
   mediaFramesContainer.style.marginTop = `${frameGaps.marginTop}px`;
   // offset
 
-  mediaFramesContainer.id = `media-frame-container-${index}`;
+  mediaFramesContainer.id = `${frameTags.mediaFramesContainerID}-${index}`;
 
   return mediaFramesContainer;
 };
@@ -52,7 +52,7 @@ const createMediaFrame = (
   mediaFrame.style.height = mediaFrameHeight;
   mediaFrame.style.display = "none"; // NOTE: may hide lazy placeholder
 
-  mediaFrame.id = `media-frame-${index}`;
+  mediaFrame.id = `${frameTags.mediaFrameID}-${index}`;
 
   const mediaFramesContainer = createMediaFrameContainer(
     index,
