@@ -21,9 +21,9 @@ const render = async () => {
   );
 
   document.body.appendChild(
-    createSettingsEditor(mediaTimelineContainer, loadFeed)
+    await createSettingsEditor(mediaTimelineContainer, loadFeed)
   );
-  
+
   const directoryPath = await getDirectoryPath();
   if (directoryPath != undefined)
     loadFeed(directoryPath, mediaTimelineContainer);

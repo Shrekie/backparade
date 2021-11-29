@@ -1,17 +1,9 @@
 // App wide settings GUI
 
 const { ipcRenderer } = require("electron");
-const { setFrameSize } = require("./feed-layout.js");
+const { setFrameSize, getFrameSize } = require("./feed-layout.js");
 
-const createSettingsEditor = (mediaTimelineContainer, loadFeed) => {
-  const settingsContainer = document.createElement("div");
-  settingsContainer.style.position = "fixed";
-  settingsContainer.style.top = "10px";
-  settingsContainer.style.right = "10px";
-  settingsContainer.style.zIndex = "1";
-  settingsContainer.style.background =
-    "linear-gradient(to right, #00b4db, #0083b0)";
-
+const createSettingsNumInput = () => {
   const settingsNumInput = document.createElement("input");
   settingsNumInput.style.width = "100px";
   settingsNumInput.style.margin = "10px";
@@ -25,10 +17,10 @@ const createSettingsEditor = (mediaTimelineContainer, loadFeed) => {
   settingsNumInput.style.cursor = "pointer";
   settingsNumInput.setAttribute("type", "number");
 
-  const mediaHeightInput = settingsNumInput.cloneNode(true);
-  mediaHeightInput.placeholder = "Media height";
-  settingsContainer.appendChild(mediaHeightInput);
+  return settingsNumInput;
+};
 
+const createSettingsSubmitButton = (mediaTimelineContainer, loadFeed) => {
   const settingsSubmitButton = document.createElement("button");
   settingsSubmitButton.innerHTML = "Submit";
   settingsSubmitButton.style.margin = "10px";
@@ -41,11 +33,41 @@ const createSettingsEditor = (mediaTimelineContainer, loadFeed) => {
   settingsSubmitButton.style.cursor = "pointer";
   settingsSubmitButton.onclick = () =>
     onClickSettingsSubmit(
-      { width: 1536, height: mediaHeightInput.valueAsNumber },
+      {
+        width: 1536,
+        height: document.getElementById(getSettingID().mediaHeight)
+          .valueAsNumber,
+      },
       mediaTimelineContainer,
       loadFeed
     );
-  settingsContainer.appendChild(settingsSubmitButton);
+
+  return settingsSubmitButton;
+};
+
+const getSettingID = () => {
+  return { mediaHeight: "media-height" };
+};
+
+const createSettingsEditor = async (mediaTimelineContainer, loadFeed) => {
+  const settingsContainer = document.createElement("div");
+  settingsContainer.style.position = "fixed";
+  settingsContainer.style.top = "10px";
+  settingsContainer.style.right = "10px";
+  settingsContainer.style.zIndex = "1";
+  settingsContainer.style.background =
+    "linear-gradient(to right, #00b4db, #0083b0)";
+
+  const mediaHeightInput = createSettingsNumInput().cloneNode(true);
+  mediaHeightInput.id = getSettingID().mediaHeight;
+  mediaHeightInput.placeholder = "Media height";
+  const { mediaFrameHeight } = await getFrameSize();
+  mediaHeightInput.value = mediaFrameHeight;
+  settingsContainer.appendChild(mediaHeightInput);
+
+  settingsContainer.appendChild(
+    createSettingsSubmitButton(mediaTimelineContainer, loadFeed)
+  );
 
   return settingsContainer;
 };

@@ -17,9 +17,8 @@ const createDirectorySelector = (mediaTimelineContainer, loadFeed) => {
   button.style.padding = "10px";
   button.style.border = "1px solid #ccc";
   button.style.cursor = "pointer";
-  directorySelectorContainer.appendChild(button);
-
   onClickDirectorySelector(button, mediaTimelineContainer, loadFeed);
+  directorySelectorContainer.appendChild(button);
 
   return directorySelectorContainer;
 };
