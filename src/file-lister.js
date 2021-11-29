@@ -2,11 +2,11 @@
 
 const { readdir, stat } = require("fs/promises");
 
-const getDirFiles = (dirPath) => {
-  return readdir(dirPath).then((names) => {
+const getDirectoryFiles = (directoryPath) => {
+  return readdir(directoryPath).then((names) => {
     return Promise.all(
       // Get promise of file metadata
-      names.map((name) => stat(`${dirPath}/${name}`))
+      names.map((name) => stat(`${directoryPath}/${name}`))
     ).then((metadata) => {
       // Merge name with rest of metadata and sort by ctimeMs
       const files = names.map((name, index) => ({
@@ -25,4 +25,4 @@ const getDirFiles = (dirPath) => {
     path.extname(file.name) == ".mp4" || path.extname(file.name) == ".webm"
 )
 */
-module.exports = { getDirFiles };
+module.exports = { getDirectoryFiles };

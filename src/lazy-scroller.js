@@ -4,7 +4,9 @@
 
 const { getLazyViewport, frameTags } = require("./feed-layout.js");
 
-const setVisibleMedia = (graphicSize, numberOfGraphicsVisible) => {
+const setVisibleMedia = async () => {
+  const { graphicSize, numberOfGraphicsVisible } = await getLazyViewport();
+
   let visibleIndexes = Array(numberOfGraphicsVisible).fill(0);
 
   // Calculate indexes visible
@@ -48,15 +50,13 @@ const setVisibleMedia = (graphicSize, numberOfGraphicsVisible) => {
 };
 
 const enableLazyScrolling = async () => {
-  const { graphicSize, numberOfGraphicsVisible } = await getLazyViewport();
-
-  setVisibleMedia(graphicSize, numberOfGraphicsVisible);
+  setVisibleMedia();
 
   // Update visible indexes on scroll
   // NOTE: inneficient, should not be called on every scroll.
   // Performance does not seem to suffer notably from this
   window.addEventListener("scroll", (_) => {
-    setVisibleMedia(graphicSize, numberOfGraphicsVisible);
+    setVisibleMedia();
   });
 };
 

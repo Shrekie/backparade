@@ -1,8 +1,9 @@
 // App wide settings GUI
 
+const { ipcRenderer } = require("electron");
 const { setFrameSize } = require("./feed-layout.js");
 
-const createSettingsEditor = () => {
+const createSettingsEditor = (mediaTimelineContainer, loadFeed) => {
   const settingsContainer = document.createElement("div");
   settingsContainer.style.position = "fixed";
   settingsContainer.style.top = "10px";
@@ -38,13 +39,26 @@ const createSettingsEditor = () => {
   settingsSubmitButton.style.padding = "10px";
   settingsSubmitButton.style.border = "1px solid #ccc";
   settingsSubmitButton.style.cursor = "pointer";
+  settingsSubmitButton.onclick = () =>
+    onClickSettingsSubmit(
+      { width: 1536, height: mediaHeightInput.valueAsNumber },
+      mediaTimelineContainer,
+      loadFeed
+    );
   settingsContainer.appendChild(settingsSubmitButton);
 
   return settingsContainer;
 };
 
-const onClickSettingsSubmit = (settings) => {
-  setFrameSize(settings.width, settings.height);
+const onClickSettingsSubmit = async (
+  settings,
+  mediaTimelineContainer,
+  loadFeed
+) => {
+  await setFrameSize(settings.width, settings.height);
+  const directoryPath = await ipcRenderer.invoke("get-directory-path");
+
+  loadFeed(directoryPath, mediaTimelineContainer);
 };
 
 module.exports = {

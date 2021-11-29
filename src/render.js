@@ -5,11 +5,30 @@
 // selectively enable features needed in the rendering
 // process.
 
-const { createDirectorySelector, createSettingsEditor } = window.timeline;
+const {
+  createDirectorySelector,
+  createSettingsEditor,
+  loadFeed,
+  getDirectoryPath,
+} = window.timeline;
 
-const mediaTimelineContainer = document.createElement("div");
-document.body.appendChild(mediaTimelineContainer);
-document.body.appendChild(createDirectorySelector(mediaTimelineContainer));
-document.body.appendChild(createSettingsEditor());
+const render = async () => {
+  const mediaTimelineContainer = document.createElement("div");
+  document.body.appendChild(mediaTimelineContainer);
 
-window.timeline.enableLazyScrolling();
+  document.body.appendChild(
+    createDirectorySelector(mediaTimelineContainer, loadFeed)
+  );
+
+  document.body.appendChild(
+    createSettingsEditor(mediaTimelineContainer, loadFeed)
+  );
+  
+  const directoryPath = await getDirectoryPath();
+  if (directoryPath != undefined)
+    loadFeed(directoryPath, mediaTimelineContainer);
+
+  window.timeline.enableLazyScrolling();
+};
+
+render();

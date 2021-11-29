@@ -1,11 +1,8 @@
 // Selecting the directory of a timeline
 
 const { ipcRenderer } = require("electron");
-const { getDirFiles } = require("./file-lister.js");
-const { createMediaTimeline } = require("./media-framer.js");
-const { setVisibleMedia } = require("./lazy-scroller.js");
 
-const createDirectorySelector = (mediaTimelineContainer) => {
+const createDirectorySelector = (mediaTimelineContainer, loadFeed) => {
   const directorySelectorContainer = document.createElement("div");
   directorySelectorContainer.style.position = "fixed";
   directorySelectorContainer.style.top = "10px";
@@ -22,29 +19,23 @@ const createDirectorySelector = (mediaTimelineContainer) => {
   button.style.cursor = "pointer";
   directorySelectorContainer.appendChild(button);
 
-  onClickDirectorySelector(button, mediaTimelineContainer);
+  onClickDirectorySelector(button, mediaTimelineContainer, loadFeed);
 
   return directorySelectorContainer;
 };
 
-onClickDirectorySelector = (button, mediaTimelineContainer) => {
-  button.onclick = () => {
-    ipcRenderer
-      .invoke("select-directory")
-      .then((result) => setNewDirectory(result, mediaTimelineContainer));
+onClickDirectorySelector = (button, mediaTimelineContainer, loadFeed) => {
+  button.onclick = async () => {
+    const result = await ipcRenderer.invoke("select-directory");
+    if (result.canceled) {
+      return;
+    }
+
+    const selectedDirectory = result.filePaths[0];
+    await ipcRenderer.invoke("set-directory-path", selectedDirectory);
+
+    loadFeed(selectedDirectory, mediaTimelineContainer);
   };
-};
-
-const setNewDirectory = (result, mediaTimelineContainer) => {
-  if (result.canceled) {
-    return;
-  }
-
-  mediaTimelineContainer.innerHTML = "";
-  getDirFiles(result.filePaths[0]).then((files) => {
-    createMediaTimeline(result.filePaths[0], files, mediaTimelineContainer);
-    setVisibleMedia();
-  });
 };
 
 module.exports = { createDirectorySelector };

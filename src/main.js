@@ -57,6 +57,10 @@ const store = new Store({
       type: "number",
       default: 864,
     },
+
+    directoryPath: {
+      type: "string",
+    },
   },
 });
 
@@ -72,4 +76,12 @@ ipcMain.handle("set-frame-size", (event, arg) => {
     mediaFrameWidth: arg.width,
     mediaFrameHeight: arg.height,
   });
+});
+
+ipcMain.handle("get-directory-path", (event, arg) => {
+  return store.get("directoryPath");
+});
+
+ipcMain.handle("set-directory-path", (event, arg) => {
+  return store.set("directoryPath", arg);
 });
