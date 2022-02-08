@@ -1,5 +1,4 @@
 node_modules/
 private.js
 notes.txt
-backparade-win32-x64/
-backparade-win32-x64.rar
+dist
