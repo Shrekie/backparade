@@ -1,3 +1,3 @@
-Image viewer, shows images in a directory in a feed.
+Image viewer, shows directory images in a scrollable smart feed.
 
 Supports video, webm etc
