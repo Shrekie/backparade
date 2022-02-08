@@ -1,3 +1,4 @@
-Image viewer, shows directory images in a scrollable smart feed.
+Image/Video viewer, 
+scrollable smart feed of a directory and its media.
 
-Supports video, webm etc
+images, webm, mp4 etc.
