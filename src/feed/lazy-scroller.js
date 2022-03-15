@@ -2,7 +2,7 @@
 // within a viewport with scroll posisition as basis
 // to save performance
 
-const { getLazyViewport, frameTags } = require("./feed-layout.js");
+const { getLazyViewport, frameTags } = require("./layout.js");
 
 const setVisibleMedia = async () => {
   const { graphicSize, numberOfGraphicsVisible } = await getLazyViewport();

@@ -1,7 +1,7 @@
 // Frame elements that render media on a timeline feed
 
 const path = require("path");
-const { getFrameSize, frameGaps, frameTags } = require("./feed-layout.js");
+const { getFrameSize, frameGaps, frameTags } = require("./layout.js");
 
 const createMediaFrameContainer = (
   index,

@@ -1,5 +1,4 @@
-// Settings for the graphical layout of timeline feed
-// some properties are taken from disk storage
+// Layout of the timeline feed
 
 const { ipcRenderer } = require("electron");
 
@@ -19,9 +18,8 @@ const frameTags = {
 const frameGaps = { border: 1, padding: 10, marginTop: 10 };
 
 const getLazyViewport = async () => {
-  // NOTE: dynamic number of pictures visible based on size
-
   const { mediaFrameHeight } = await ipcRenderer.invoke("get-frame-size");
+
   const graphicSize =
     mediaFrameHeight +
     frameGaps.border * 2 +

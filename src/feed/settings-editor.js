@@ -1,7 +1,7 @@
 // App wide settings GUI
 
 const { ipcRenderer } = require("electron");
-const { setFrameSize, getFrameSize } = require("./feed-layout.js");
+const { setFrameSize, getFrameSize } = require("./layout.js");
 
 const createSettingsNumInput = () => {
   const settingsNumInput = document.createElement("input");
