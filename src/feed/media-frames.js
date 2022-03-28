@@ -1,6 +1,7 @@
 // Frame elements that render media on a timeline feed
 
 const path = require("path");
+var mime = require("mime-types");
 const { getFrameSize, frameGaps, frameTags } = require("./layout.js");
 
 const createMediaFrameContainer = (
@@ -35,22 +36,35 @@ const createMediaFrame = (
 ) => {
   let mediaFrame;
 
-  if (path.extname(fileName) == ".mp4" || path.extname(fileName) == ".webm") {
+  if (!mime.lookup(fileName)) {
+    mediaFrame = false;
+  } else if (mime.lookup(fileName).includes("video")) {
     mediaFrame = document.createElement("video");
-
     mediaFrame.autoplay = false;
     mediaFrame.volume = 0.005;
     mediaFrame.muted = true;
     mediaFrame.loop = true;
     mediaFrame.controls = true;
-  } else mediaFrame = document.createElement("img");
+  } else if (mime.lookup(fileName).includes("image")) {
+    mediaFrame = document.createElement("img");
+  } else {
+    mediaFrame = false;
+  }
 
-  mediaFrame.dataset.src = `${filePath}/${fileName}`;
+  if (mediaFrame) {
+    mediaFrame.dataset.src = `${filePath}/${fileName}`;
+    mediaFrame.style.display = "none";
+  } else {
+    mediaFrame = document.createElement("div");
+    mediaFrame.style.display = "flex";
+    mediaFrame.style.alignItems = "center";
+    mediaFrame.style.justifyContent = "center";
+    mediaFrame.innerHTML = fileName;
+  }
 
   mediaFrame.style.objectFit = "contain";
   mediaFrame.style.width = "100%";
   mediaFrame.style.height = mediaFrameHeight;
-  mediaFrame.style.display = "none"; // NOTE: may hide lazy placeholder
 
   mediaFrame.id = `${frameTags.mediaFrameID}-${index}`;
 
@@ -70,7 +84,6 @@ const createMediaTimeline = async (
   timelineContainer = document.body
 ) => {
   const { mediaFrameWidth, mediaFrameHeight } = await getFrameSize();
-
   files.forEach((file, index) => {
     mediaFrame = createMediaFrame(
       index,

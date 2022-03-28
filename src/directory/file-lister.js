@@ -19,10 +19,4 @@ const getDirectoryFiles = (directoryPath) => {
   });
 };
 
-/*
-.filter(
-  (file) =>
-    path.extname(file.name) == ".mp4" || path.extname(file.name) == ".webm"
-)
-*/
 module.exports = { getDirectoryFiles };

@@ -8,11 +8,11 @@
     "build": "electron-builder --dir"
   },
   "devDependencies": {
-    "electron": "^13.6.9",
-    "electron-builder": "^22.14.13",
-    "electron-packager": "^15.4.0"
+    "electron": "^17.2.0",
+    "electron-builder": "^22.14.13"
   },
   "dependencies": {
-    "electron-store": "^8.0.1"
+    "electron-store": "^8.0.1",
+    "mime-types": "^2.1.35"
   }
 }
