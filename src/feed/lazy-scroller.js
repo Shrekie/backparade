@@ -4,10 +4,11 @@
 
 const { getLazyViewport, frameTags } = require("./layout.js");
 
-const setVisibleMedia = async () => {
+const setVisibleMedia = async (visibleIndexes = null) => {
   const { graphicSize, numberOfGraphicsVisible } = await getLazyViewport();
 
-  let visibleIndexes = Array(numberOfGraphicsVisible).fill(0);
+  if (visibleIndexes == null)
+    visibleIndexes = Array(numberOfGraphicsVisible).fill(0);
 
   // Calculate indexes visible
   let newVisibleIndexes = visibleIndexes.map((_, indexHeight) =>
@@ -31,7 +32,6 @@ const setVisibleMedia = async () => {
       mediaFrame.src = "";
       mediaFrame.removeAttribute("src");
       mediaFrame.style.display = "none";
-      mediaFrame = null;
     });
 
   // Download src of viewable graphic if not already.
@@ -47,16 +47,18 @@ const setVisibleMedia = async () => {
       mediaFrame.style.display = "block";
     }
   });
+
+  return newVisibleIndexes;
 };
 
 const enableLazyScrolling = async () => {
-  setVisibleMedia();
+  let visibleIndexes = await setVisibleMedia();
 
   // Update visible indexes on scroll
   // NOTE: inneficient, should not be called on every scroll.
   // Performance does not seem to suffer notably from this
-  window.addEventListener("scroll", (_) => {
-    setVisibleMedia();
+  window.addEventListener("scroll", async (_) => {
+    visibleIndexes = await setVisibleMedia(visibleIndexes);
   });
 };
 

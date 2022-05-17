@@ -1,8 +1,9 @@
 // Lists file content in a given directory
 
 const { readdir, stat } = require("fs/promises");
+var mime = require("mime-types");
 
-const getDirectoryFiles = (directoryPath) => {
+const getDirectoryFiles = (directoryPath, hideUnsupported = true) => {
   return readdir(directoryPath).then((names) => {
     return Promise.all(
       // Get promise of file metadata
@@ -14,7 +15,16 @@ const getDirectoryFiles = (directoryPath) => {
         ...metadata[index],
       }));
       files.sort((a, b) => a.ctimeMs - b.ctimeMs);
-      return files;
+
+      //TODO: Make hiding all unsupported optional
+      if (hideUnsupported)
+        return files.filter(
+          (file) =>
+            mime.lookup(file.name) &&
+            (mime.lookup(file.name).includes("image") ||
+              mime.lookup(file.name).includes("video"))
+        );
+      else return files;
     });
   });
 };

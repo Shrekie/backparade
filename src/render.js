@@ -25,10 +25,7 @@ const render = async () => {
   );
 
   const directoryPath = await getDirectoryPath();
-  if (directoryPath != undefined)
-    loadFeed(directoryPath, mediaTimelineContainer);
-
-  window.timeline.enableLazyScrolling();
+  loadFeed(directoryPath, mediaTimelineContainer);
 };
 
 render();

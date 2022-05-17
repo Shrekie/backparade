@@ -1,6 +1,4 @@
 // Frame elements that render media on a timeline feed
-
-const path = require("path");
 var mime = require("mime-types");
 const { getFrameSize, frameGaps, frameTags } = require("./layout.js");
 
@@ -37,7 +35,7 @@ const createMediaFrame = (
   let mediaFrame;
 
   if (!mime.lookup(fileName)) {
-    mediaFrame = false;
+    mediaFrame = null;
   } else if (mime.lookup(fileName).includes("video")) {
     mediaFrame = document.createElement("video");
     mediaFrame.autoplay = false;
@@ -48,13 +46,13 @@ const createMediaFrame = (
   } else if (mime.lookup(fileName).includes("image")) {
     mediaFrame = document.createElement("img");
   } else {
-    mediaFrame = false;
+    mediaFrame = null;
   }
 
-  if (mediaFrame) {
+  if (mediaFrame != null) {
     mediaFrame.dataset.src = `${filePath}/${fileName}`;
-    mediaFrame.style.display = "none";
   } else {
+    // Mediaframe is not supported
     mediaFrame = document.createElement("div");
     mediaFrame.style.display = "flex";
     mediaFrame.style.alignItems = "center";
@@ -65,7 +63,6 @@ const createMediaFrame = (
   mediaFrame.style.objectFit = "contain";
   mediaFrame.style.width = "100%";
   mediaFrame.style.height = mediaFrameHeight;
-
   mediaFrame.id = `${frameTags.mediaFrameID}-${index}`;
 
   const mediaFramesContainer = createMediaFrameContainer(
