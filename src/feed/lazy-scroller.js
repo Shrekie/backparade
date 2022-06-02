@@ -29,7 +29,6 @@ const setVisibleMedia = async (visibleIndexes = null) => {
 
       if (mediaFrame == null) return;
 
-      mediaFrame.src = "";
       mediaFrame.removeAttribute("src");
       mediaFrame.style.display = "none";
     });

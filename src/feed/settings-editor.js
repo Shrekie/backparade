@@ -49,21 +49,38 @@ const getSettingID = () => {
   return { mediaHeight: "media-height" };
 };
 
+const createMediaHeightSetting = async () => {
+  mediaHeightSettingContainer = document.createElement("div");
+  mediaHeightSettingContainer.style.display = "flex";
+  mediaHeightSettingContainer.style.padding = "10px";
+
+  const mediaHeightSettingLabel = document.createElement("p");
+  mediaHeightSettingLabel.innerText = "Media Size";
+  mediaHeightSettingLabel.style.color = "white";
+
+  mediaHeightSettingContainer.appendChild(mediaHeightSettingLabel);
+  const mediaHeightInput = createSettingsNumInput().cloneNode(true);
+  mediaHeightInput.id = getSettingID().mediaHeight;
+  const { mediaFrameHeight } = await getFrameSize();
+  mediaHeightInput.value = mediaFrameHeight;
+  mediaHeightSettingContainer.appendChild(mediaHeightInput);
+
+  return mediaHeightSettingContainer;
+};
+
 const createSettingsEditor = async (mediaTimelineContainer, loadFeed) => {
   const settingsContainer = document.createElement("div");
   settingsContainer.style.position = "fixed";
+  settingsContainer.style.padding = "5px";
+  settingsContainer.style.borderRadius = "10px"
   settingsContainer.style.top = "10px";
   settingsContainer.style.right = "10px";
   settingsContainer.style.zIndex = "1";
+  settingsContainer.style.border = "1px solid #ccc";
   settingsContainer.style.background =
     "linear-gradient(to right, #00b4db, #0083b0)";
 
-  const mediaHeightInput = createSettingsNumInput().cloneNode(true);
-  mediaHeightInput.id = getSettingID().mediaHeight;
-  mediaHeightInput.placeholder = "Media height";
-  const { mediaFrameHeight } = await getFrameSize();
-  mediaHeightInput.value = mediaFrameHeight;
-  settingsContainer.appendChild(mediaHeightInput);
+  settingsContainer.appendChild(await createMediaHeightSetting());
 
   settingsContainer.appendChild(
     createSettingsSubmitButton(mediaTimelineContainer, loadFeed)

@@ -5,8 +5,7 @@ const { ipcRenderer } = require("electron");
 const createDirectorySelector = (mediaTimelineContainer, loadFeed) => {
   const directorySelectorContainer = document.createElement("div");
   directorySelectorContainer.style.position = "fixed";
-  directorySelectorContainer.style.top = "10px";
-  directorySelectorContainer.style.left = "10%";
+  directorySelectorContainer.style.top = "0px";
   directorySelectorContainer.style.zIndex = "1";
 
   const button = document.createElement("div");
