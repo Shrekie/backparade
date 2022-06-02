@@ -23,7 +23,7 @@ const createSettingsNumInput = () => {
 const createSettingsSubmitButton = (mediaTimelineContainer, loadFeed) => {
   const settingsSubmitButton = document.createElement("button");
   settingsSubmitButton.innerHTML = "Submit";
-  settingsSubmitButton.style.margin = "10px";
+  settingsSubmitButton.style.margin = "0px";
   settingsSubmitButton.style.background =
     "linear-gradient(to right, #00b4db, #0083b0)";
   settingsSubmitButton.style.borderRadius = "5px";
@@ -52,7 +52,7 @@ const getSettingID = () => {
 const createMediaHeightSetting = async () => {
   mediaHeightSettingContainer = document.createElement("div");
   mediaHeightSettingContainer.style.display = "flex";
-  mediaHeightSettingContainer.style.padding = "10px";
+  mediaHeightSettingContainer.style.padding = "5px";
 
   const mediaHeightSettingLabel = document.createElement("p");
   mediaHeightSettingLabel.innerText = "Media Size";
@@ -68,25 +68,57 @@ const createMediaHeightSetting = async () => {
   return mediaHeightSettingContainer;
 };
 
-const createSettingsEditor = async (mediaTimelineContainer, loadFeed) => {
-  const settingsContainer = document.createElement("div");
-  settingsContainer.style.position = "fixed";
-  settingsContainer.style.padding = "5px";
-  settingsContainer.style.borderRadius = "10px"
-  settingsContainer.style.top = "10px";
-  settingsContainer.style.right = "10px";
-  settingsContainer.style.zIndex = "1";
-  settingsContainer.style.border = "1px solid #ccc";
-  settingsContainer.style.background =
+const createEditorToggler = (settingsContainer) => {
+  const editorToggler = document.createElement("div");
+  editorToggler.innerHTML = "⚙️";
+  editorToggler.style.cursor = "pointer";
+  editorToggler.style.padding = "5px";
+  editorToggler.style.textAlign = "center";
+  editorToggler.style.borderRadius = "10px";
+  editorToggler.style.background =
     "linear-gradient(to right, #00b4db, #0083b0)";
 
-  settingsContainer.appendChild(await createMediaHeightSetting());
+  editorToggler.onclick = () => {
+    if (settingsContainer.style.display === "none") {
+      settingsContainer.style.display = "block";
+    } else {
+      settingsContainer.style.display = "none";
+    }
+  };
 
+  return editorToggler;
+};
+
+const createSettingsMenuContainer = () => {
+  const settingsMenuContainer = document.createElement("div");
+  settingsMenuContainer.style.position = "fixed";
+  settingsMenuContainer.style.padding = "5px";
+  settingsMenuContainer.style.borderRadius = "10px";
+  settingsMenuContainer.style.top = "0px";
+  settingsMenuContainer.style.right = "0px";
+  settingsMenuContainer.style.zIndex = "1";
+  settingsMenuContainer.style.border = "1px solid #ccc";
+  settingsMenuContainer.style.background =
+    "linear-gradient(to right, #00b4db, #0083b0)";
+
+  return settingsMenuContainer;
+};
+const createSettingsEditor = async (mediaTimelineContainer, loadFeed) => {
+  const settingsMenuContainer = createSettingsMenuContainer();
+  const settingsContainer = document.createElement("div");
+
+  const editorToggler = createEditorToggler(settingsContainer);
+  settingsMenuContainer.appendChild(editorToggler);
+
+  settingsContainer.appendChild(await createMediaHeightSetting());
   settingsContainer.appendChild(
     createSettingsSubmitButton(mediaTimelineContainer, loadFeed)
   );
 
-  return settingsContainer;
+  settingsMenuContainer.appendChild(settingsContainer);
+
+  settingsContainer.style.display = "none";
+  return settingsMenuContainer;
 };
 
 const onClickSettingsSubmit = async (
